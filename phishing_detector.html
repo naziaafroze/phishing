@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AI Phishing URL Detector</title>
+
+<style>
+body{
+    font-family:Segoe UI,sans-serif;
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    text-align:center;
+    margin-top:100px;
+    color:white;
+}
+
+.box{
+    background:rgba(255,255,255,0.1);
+    padding:30px;
+    border-radius:15px;
+    display:inline-block;
+    backdrop-filter:blur(10px);
+    box-shadow:0 0 20px rgba(0,0,0,.5);
+}
+
+input{
+    padding:12px;
+    width:300px;
+    border:none;
+    border-radius:8px;
+    outline:none;
+}
+
+button{
+    padding:12px 25px;
+    margin-top:15px;
+    background:#00c6ff;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0072ff;
+    color:white;
+}
+
+.safe{
+    color:#00ffae;
+}
+
+.phishing{
+    color:#ff4d4d;
+}
+
+#result{
+    margin-top:20px;
+    font-size:20px;
+    font-weight:bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+<h2>🔒 AI Phishing URL Detector</h2>
+
+<input type="text" id="url" placeholder="Enter Website URL">
+<br><br>
+
+<button onclick="checkURL()">Check URL</button>
+
+<p id="result"></p>
+</div>
+
+<script>
+function checkURL(){
+
+    let url=document.getElementById("url").value.toLowerCase();
+    let score=0;
+
+    if(!url.startsWith("https://")) score++;
+    if(url.length>50) score++;
+    if(url.includes("@")) score++;
+    if(url.includes("-")) score++;
+
+    let words=["login","verify","secure","bank","update","account","paypal","free","bonus"];
+
+    words.forEach(function(word){
+        if(url.includes(word))
+            score++;
+    });
+
+    let result=document.getElementById("result");
+
+    if(score>=3){
+        result.innerHTML="⚠️ Phishing Website Detected!";
+        result.className="phishing";
+    }
+    else{
+        result.innerHTML="✅ Safe Website";
+        result.className="safe";
+    }
+}
+</script>
+
+</body>
+</html>
